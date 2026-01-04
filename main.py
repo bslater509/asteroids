@@ -8,10 +8,17 @@ import sys
 from asteroidfield import AsteroidField
 
 def load_high_score():
-    high_score_file = open("high_score.txt")
-    high_score = high_score_file.read()
-    high_score_file.close()
-    return high_score
+    #create high score file if it doesn't exist
+    try:
+        high_score_file = open("high_score.txt")
+        high_score = high_score_file.read()
+        high_score_file.close()
+        return high_score
+    except FileNotFoundError:
+        high_score_file = open("high_score.txt", "w")
+        high_score_file.write("0")
+        high_score_file.close()
+        return 0
 
 def store_high_score(score):
     high_score_file = open("high_score.txt", "w")
