@@ -61,6 +61,7 @@ Destroy all asteroids to earn points. When you hit an asteroid, it splits into s
 - `constants.py` - Game configuration (screen size, velocities, etc.)
 - `logger.py` - Event and state logging utilities
 - `test.py` - Test suite
+ - `ideas.md` - Project ideas and planned improvements
 
 ## Logging
 
