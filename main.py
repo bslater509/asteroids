@@ -7,16 +7,32 @@ from logger import log_state, log_event
 import sys
 from asteroidfield import AsteroidField
 
+def load_high_score():
+    high_score_file = open("high_score.txt")
+    high_score = high_score_file.read()
+    high_score_file.close()
+    return high_score
+
+def store_high_score(score):
+    high_score_file = open("high_score.txt", "w")
+    high_score_file.write(str(int(score)))
+    high_score_file.close()
+
+
+
 def main():
     #initialize pygame and create window
     print(f"Starting Asteroids with pygame version: {pygame.version.ver}")
     print(f"Screen width: {SCREEN_WIDTH}")
     print(f"Screen height: {SCREEN_HEIGHT}")
+
+    high_score = load_high_score()
+    print(f"High Score: {high_score}")
+    score = int(0)
     pygame.init()
     pygame.font.init()
     clock = pygame.time.Clock()
     dt = 0
-    score = 0
     score_font = pygame.font.SysFont('Comic Sans MS', 30)
 
     #setup sprite groups
@@ -32,7 +48,7 @@ def main():
     Shot.containers = (updatable, drawable,shots)
 
     #create game objects
-    score_surface = score_font.render(f"Score: {score}", False, "white")
+    score_surface = score_font.render(f"Score: {score} - High Score: {high_score}", False, "white")
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     player = Player(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
 
@@ -49,7 +65,10 @@ def main():
         for asteroid in asteroids:
             if asteroid.collides_with(player):
                 log_event("player_hit")
-                print("Game over!")
+                print("Game over!") 
+                if score > int(high_score):
+                    store_high_score(score)
+                    print(f"New high score: {score}!")
                 sys.exit(0)
 
         for asteroid in asteroids:
@@ -57,8 +76,7 @@ def main():
                 if asteroid.collides_with(shot):
                     log_event("asteroid_shot")
                     score += asteroid.score_points
-                    score_surface = score_font.render(f"Score: {score}", False, "white")
-  
+                    score_surface = score_font.render(f"Score: {int(score)} - High Score: {high_score}", False, "white")
                     shot.kill()
                     asteroid.split()
 
