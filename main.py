@@ -56,7 +56,7 @@ def main():
             for shot in shots:
                 if asteroid.collides_with(shot):
                     log_event("asteroid_shot")
-                    score += 1
+                    score += asteroid.score_points
                     score_surface = score_font.render(f"Score: {score}", False, "white")
   
                     shot.kill()

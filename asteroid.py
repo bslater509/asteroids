@@ -6,7 +6,7 @@ from logger import log_event
 class Asteroid(CircleShape):
     def __init__(self, x,y,radius):
         super().__init__(x,y,radius)
-
+        self.score_points = self.radius /20
 
     def draw(self,screen):
         pygame.draw.circle(screen,"white",self.position,self.radius,LINE_WIDTH)
